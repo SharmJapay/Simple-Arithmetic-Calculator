@@ -1,21 +1,22 @@
 """Functions for the calculator program."""
 
-# Create a function "check_answer" with parameter "message".
-# Add an error exception to catch errors for non Yes/No response
+# Create a function "get_user_choice" with parameter "message".
+# Add an error exception to catch errors for non Yes/No responses
 
 
-def check_answer(message):
-    """Checks if the user input is a valid Yes/No response
+def get_user_choice(message):
+    """Repeatedly prompts user until a valid yes/no response is given
 
     Arguments:
         message (str) - The prompt message to display to the user
 
     Errors:
-        ValueError - Raised when the input is not a valid operation
+        ValueError - Raised when the input is not a valid Yes/No response
 
     Returns:
         answer (str) - A valid Yes or No response entered by the user
     """
+
     while True:
         try:
             # Check if the answer is "Yes" or "No" value
@@ -24,19 +25,21 @@ def check_answer(message):
             if answer in ["yes", "no"]:
                 return answer
 
-            raise ValueError("Invalid response. Please enter 'Yes' or 'No' only!\n")
+            raise ValueError(
+                "Invalid response. Please answer with 'Yes' or 'No' only!\n"
+            )
 
         except ValueError as e:
-            # If a ValueError is caught (invalid operation input), print an error message
+            # If a ValueError is caught (invalid input), print an error message
             print(e)
 
 
-# Create a function "check_operation" with parameter "message".
-# Add an error exception to catch errors for invalid operations (+, -, *, /)
+# Create a function "get_operation" with parameter "message".
+# Add an error exception to catch errors for invalid operations (+, -, *, /) responses
 
 
-def check_operation(message):
-    """Repeatedly prompts user for an operation until valid input is received
+def get_operation(message):
+    """Repeatedly prompts user until a valid operation input is given
 
     Arguments:
         message (str) - The prompt message to display to the user
@@ -57,11 +60,11 @@ def check_operation(message):
                 return operation
 
             raise ValueError(
-                "Invalid operation. Please enter one of operations (+, -, *, /).\n"
+                "Invalid operation. Please enter one of these operations (+, -, *, /) only.\n"
             )
 
         except ValueError as e:
-            # If a ValueError is caught (invalid operation input), print an error message
+            # If a ValueError is caught (invalid input), print an error message
             print(e)
 
 
@@ -70,7 +73,7 @@ def check_operation(message):
 
 
 def get_number_list_input(message):
-    """Repeatedly prompts user for a list of numbers until valid input is received
+    """Repeatedly prompts user until a valid list of numeric inputs are given
 
     Arguments:
         message (str) - The prompt message to display to the user
@@ -90,13 +93,13 @@ def get_number_list_input(message):
             # Split the input string by commas and convert each part to a float
             number_list = [float(num.strip()) for num in user_input.split(",")]
 
-            # If the conversion succeeds, break the loop and return the list
+            # If the str to float conversion succeeds, return the list
             return number_list
 
         except ValueError:
             # If a ValueError is caught (non-numeric input), print an error message
             print(
-                "Invalid input. Please enter valid float and integer numbers separated by commas."
+                "Invalid input. Please enter only valid numeric numbers separated by commas."
             )
 
 
@@ -105,7 +108,8 @@ def get_number_list_input(message):
 
 
 def get_round_off_digit(message):
-    """Repeatedly prompts user for a round off digit until valid input is received
+    """Repeatedly prompts user until a valid integer input is given.
+    Accepts empty value and use the default value of the round of digit.
 
     Arguments:
         message (str) - The prompt message to display to the user
@@ -120,9 +124,14 @@ def get_round_off_digit(message):
     while True:
         try:
             # Get user input for round off digit
-            round_off_digit = int(input(message))
+            user_input = input(message)
 
-            # If the conversion succeeds, break the loop and return the integer
+            if user_input == "":
+                return user_input
+
+            round_off_digit = int(user_input)
+
+            # If the str to integer conversion succeeds, return the integer
             return round_off_digit
 
         except ValueError:

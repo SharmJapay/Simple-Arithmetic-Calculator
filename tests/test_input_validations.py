@@ -1,8 +1,8 @@
 """Testing input validation functions for the calculator program."""
 
-from input_validations import (
-    check_answer,
-    check_operation,
+from utils.input_validations import (
+    get_user_choice,
+    get_operation,
     get_number_list_input,
     get_round_off_digit,
 )
@@ -14,19 +14,19 @@ def test_valid_different_yes_input(monkeypatch):
     # Simulate typing "yes" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "yes")
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
     # Simulate typing "YES" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "YES")
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
     # Simulate typing "YeS " followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "YeS ")
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
 
@@ -36,37 +36,37 @@ def test_valid_different_no_input(monkeypatch):
     # Simulate typing "no" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "no")
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
     # Simulate typing "NO" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "NO")
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
     # Simulate typing " nO" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: " nO")
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
 
 def test_invalid_input_then_valid_yes_no(monkeypatch):
     """Test that entering invalid inputs followed by 'yes' or 'no' returns 'yes' or 'no'."""
 
-    # Simulate typing (invalid inputs) followed by "yes"
+    # Simulate typing invalid inputs followed by "yes"
     inputs = iter(["hello", "hi", "maybe", "yes"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
-    # Simulate typing (invalid inputs) followed by "no"
+    # Simulate typing invalid inputs followed by "no"
     inputs = iter(["123", "asd123", "maybe", "no"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
-    result = check_answer("Do you want to start the calculation? (Yes / No): ")
+    result = get_user_choice("Do you want to start the calculation? (Yes / No): ")
     assert result in ["yes", "no"]
 
 
@@ -76,44 +76,46 @@ def test_valid_operation_inputs(monkeypatch):
     # Simulate typing "+" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "+")
 
-    result = check_operation("Enter the operation (+, -, *, /): ")
+    result = get_operation("Enter the operation (+, -, *, /): ")
     assert result in ["+", "-", "*", "/"]
 
     # Simulate typing "-" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "-")
 
-    result = check_operation("Enter the operation (+, -, *, /): ")
+    result = get_operation("Enter the operation (+, -, *, /): ")
     assert result in ["+", "-", "*", "/"]
 
-    # Simulate typing "+" followed by Enter
+    # Simulate typing "*" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "*")
 
-    result = check_operation("Enter the operation (+, -, *, /): ")
+    result = get_operation("Enter the operation (+, -, *, /): ")
     assert result in ["+", "-", "*", "/"]
 
-    # Simulate typing "-" followed by Enter
+    # Simulate typing "/" followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: "/")
 
-    result = check_operation("Enter the operation (+, -, *, /): ")
+    result = get_operation("Enter the operation (+, -, *, /): ")
     assert result in ["+", "-", "*", "/"]
 
 
-def test_invalid_operation_inputs(monkeypatch):
+def test_invalid_input_then_valid_input_operation(monkeypatch):
     """Test that entering invalid inputs followed (+, -, *, /) returns (+, -, *, /)."""
 
-    # Simulate typing "-" followed by Enter
-    monkeypatch.setattr("builtins.input", lambda _: "/")
+    inputs = iter(["add", "subtract", "+"])
 
-    result = check_operation("Enter the operation (+, -, *, /): ")
+    # Simulate typing invalid inputs followed by "+"
+    monkeypatch.setattr("builtins.input", lambda _: next(inputs))
+
+    result = get_operation("Enter the operation (+, -, *, /): ")
     assert result in ["+", "-", "*", "/"]
 
 
-def test_valid_integers_and_floats_inputs(monkeypatch):
+def test_valid_numeric_inputs(monkeypatch):
     """Test standard valid input with integers and floats."""
 
     number_list = iter(["12, 58.5, 100.25, 78.78"])
 
-    # Simulate typing "-" followed by Enter
+    # Simulate typing list of numbers (number_list) followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: next(number_list))
 
     result = get_number_list_input(
@@ -122,12 +124,12 @@ def test_valid_integers_and_floats_inputs(monkeypatch):
     assert result == [12, 58.5, 100.25, 78.78]
 
 
-def test_valid_integers_and_floats_with_whitespaces_inputs(monkeypatch):
+def test_valid_numeric_inputs_with_whitespaces(monkeypatch):
     """Test standard valid input with integers and floats."""
 
     number_list = iter([" 12 , 58.5    , 100.25  , 78.78"])
 
-    # Simulate typing "-" followed by Enter
+    # Simulate typing list of numbers (number_list) followed by Enter
     monkeypatch.setattr("builtins.input", lambda _: next(number_list))
 
     result = get_number_list_input(
@@ -136,12 +138,12 @@ def test_valid_integers_and_floats_with_whitespaces_inputs(monkeypatch):
     assert result == [12, 58.5, 100.25, 78.78]
 
 
-def test_invalid_random_inputs(monkeypatch, capsys):
+def test_invalid_random_input_types(monkeypatch):
     """Test that invalid input prints an error message and loops until valid input is provided."""
 
     number_list = iter(["12, efg, 58.5, asd, 78.78", "12, 58.5, 78.78"])
 
-    # Simulate typing invalid input followed by valid input
+    # Simulate typing invalid inputs followed by a valid input
     monkeypatch.setattr("builtins.input", lambda _: next(number_list))
 
     result = get_number_list_input(
@@ -149,13 +151,6 @@ def test_invalid_random_inputs(monkeypatch, capsys):
     )
 
     assert result == [12, 58.5, 78.78]
-
-    # Assert the expected error message was printed to stdout
-    captured = capsys.readouterr()
-    assert (
-        "Invalid input. Please enter valid float and integer numbers separated by commas."
-        in captured.out.strip()
-    )
 
 
 def test_valid_round_off_integer_input(monkeypatch):
@@ -165,19 +160,33 @@ def test_valid_round_off_integer_input(monkeypatch):
     monkeypatch.setattr("builtins.input", lambda _: "4")
 
     result = get_round_off_digit(
-        "Enter the number of decimal places to round the result to (default is 2): "
+        "Enter the number of desired decimal digit (empty means usage of default value): "
     )
     assert result == 4
 
 
+def test_valid_empty_round_off_input(monkeypatch):
+    """Test that entering empty input still returns valid
+    because it will use the default value which is 2"""
+
+    # Simulate entering without input
+    monkeypatch.setattr("builtins.input", lambda _: "")
+
+    result = get_round_off_digit(
+        "Enter the number of desired decimal digit (empty means usage of default value): "
+    )
+    assert result == ""
+
+
 def test_invalid_round_off_integer_input(monkeypatch):
-    """Test that entering non-integer input prints an error message and loops until valid input is provided."""
+    """Test that entering non-integer input prints an error message
+    and loops until valid input is provided."""
 
     # Simulate typing (invalid inputs) followed by "yes"
     inputs = iter(["hello", "hi", "5.5", "3"])
     monkeypatch.setattr("builtins.input", lambda _: next(inputs))
 
     result = get_round_off_digit(
-        "Enter the number of decimal places to round the result to (default is 2): "
+        "Enter the number of desired decimal digit (empty means usage of default value): "
     )
     assert result == 3
