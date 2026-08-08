@@ -1,10 +1,16 @@
-"""A simple arithmetic calculator used for basic arithmetic operations (+, -, * , /)"""
+"""The defined class for calculator with basic arithmetic operations functions like
+add(), subtract(), multiply(), and divide()"""
 
 # OOP Structure:
 # 1) Define a class
-# 2) Define the __init__ Method (initialize variables -> self, *args, and other variables)
-# 3) Define Instance Methods
-# 4) Create an Object (Instantiate the Class)
+# 2) Define global variables or class properties -> Properties defined outside methods
+# 3) Define the __init__(self, *args, **kwargs) Method
+#    (initialize variables or instance properties -> *args, and **kwargs variables)
+#    self.args = args -> initialize positional arguments
+#    self.kwargs = kwargs -> initialize keyword arguments
+#    super().__init__(*args, **kwargs) -> (Optional) Passes values to the parent or base class
+# 4) Define Instance Methods
+# 5) Create an Object (Instantiate the Class)
 
 
 # ******* Solution ********
@@ -26,14 +32,17 @@ class Calculator:
         default_round_off_value - Sets the default round off digit
     """
 
-    # 2) Define the __init__ Method (initialize variables -> self, *args, and other variables)
+    # 2) Define class properties -> Properties defined outside methods
+    DEFAULT_ROUND_OFF_DIGIT = 2
+
+    # 3) Define the __init__(self, *args, **kwargs) Method
+    #    (initialize variables or instance properties -> *args, and **kwargs variables)
 
     def __init__(self):
         """Initializes the calculator with a default result 0.0"""
         self.total_result = 0.0
-        self.default_round_off_digit = 2
 
-    # 3) Define Instance Methods
+    # 4) Define Instance Methods
 
     def add(self, *numbers, round_off_digit):
         """Add multiple numbers
@@ -64,8 +73,10 @@ class Calculator:
                     result += number
 
             round_off_digit = (
-                self.default_round_off_digit if not round_off_digit else round_off_digit
+                self.DEFAULT_ROUND_OFF_DIGIT if not round_off_digit else round_off_digit
             )
+
+            print(f"Round off to: {round_off_digit} digits")
 
             self.total_result += round(result, round_off_digit)
 
@@ -106,8 +117,10 @@ class Calculator:
                     result -= number
 
             round_off_digit = (
-                self.default_round_off_digit if not round_off_digit else round_off_digit
+                self.DEFAULT_ROUND_OFF_DIGIT if not round_off_digit else round_off_digit
             )
+
+            print(f"Round off to: {round_off_digit} digits")
 
             self.total_result += round(result, round_off_digit)
 
@@ -148,8 +161,10 @@ class Calculator:
                     result *= number
 
             round_off_digit = (
-                self.default_round_off_digit if not round_off_digit else round_off_digit
+                self.DEFAULT_ROUND_OFF_DIGIT if not round_off_digit else round_off_digit
             )
+
+            print(f"Round off to: {round_off_digit} digits")
 
             self.total_result += round(result, round_off_digit)
 
@@ -184,7 +199,7 @@ class Calculator:
 
             # Catch Division by zero
             if 0 in numbers[1:]:
-                print("Error: Division by zero is not allowed. Try again.\n")
+                print("Error: Division by zero is not allowed. Try again.")
                 return
 
             for index, number in enumerate(numbers):
@@ -196,8 +211,10 @@ class Calculator:
                     result /= number
 
             round_off_digit = (
-                self.default_round_off_digit if not round_off_digit else round_off_digit
+                self.DEFAULT_ROUND_OFF_DIGIT if not round_off_digit else round_off_digit
             )
+
+            print(f"Round off to: {round_off_digit} digits")
 
             self.total_result += round(result, round_off_digit)
 
@@ -223,5 +240,5 @@ class Calculator:
         )
 
 
-# 4) Create an instance (object) of the Calculator class
+# 5) Create an instance (object) of the Calculator class
 calculator = Calculator()

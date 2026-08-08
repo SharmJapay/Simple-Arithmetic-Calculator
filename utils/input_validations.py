@@ -1,10 +1,10 @@
-"""Functions for the calculator program."""
+"""A list of functions for input validation used in the calculator program."""
 
-# Create a function "get_user_choice" with parameter "message".
+# Create a function "get_yes_no_answer" with parameter "message".
 # Add an error exception to catch errors for non Yes/No responses
 
 
-def get_user_choice(message):
+def get_yes_no_answer(message):
     """Repeatedly prompts user until a valid yes/no response is given
 
     Arguments:
@@ -25,9 +25,7 @@ def get_user_choice(message):
             if answer in ["yes", "no"]:
                 return answer
 
-            raise ValueError(
-                "Invalid response. Please answer with 'Yes' or 'No' only!\n"
-            )
+            raise ValueError("Invalid response. Please answer with 'Yes' or 'No' only!")
 
         except ValueError as e:
             # If a ValueError is caught (invalid input), print an error message
@@ -39,7 +37,7 @@ def get_user_choice(message):
 
 
 def get_operation(message):
-    """Repeatedly prompts user until a valid operation input is given
+    """Repeatedly prompts user until a valid operation ("+", "-", "*", "/") input is given
 
     Arguments:
         message (str) - The prompt message to display to the user
@@ -60,7 +58,7 @@ def get_operation(message):
                 return operation
 
             raise ValueError(
-                "Invalid operation. Please enter one of these operations (+, -, *, /) only.\n"
+                "Invalid operation. Please enter one of these operations (+, -, *, /) only."
             )
 
         except ValueError as e:
@@ -73,7 +71,7 @@ def get_operation(message):
 
 
 def get_number_list_input(message):
-    """Repeatedly prompts user until a valid list of numeric inputs are given
+    """Repeatedly prompts user until a valid list of numeric inputs (integer and floats) are given
 
     Arguments:
         message (str) - The prompt message to display to the user
@@ -108,7 +106,7 @@ def get_number_list_input(message):
 
 
 def get_round_off_digit(message):
-    """Repeatedly prompts user until a valid integer input is given.
+    """Repeatedly prompts user until a valid integer input for round off is given.
     Accepts empty value and use the default value of the round of digit.
 
     Arguments:

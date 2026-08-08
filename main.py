@@ -1,11 +1,11 @@
 """
-Simple Arithmetic Calculator is built to handle basic operations (+, -, * , /)
+Simple Arithmetic Calculator built to handle basic operations (add, subtract, multiply, divide)
 with strict user input validation Basic Arithmetic Operations.
 This returns the list of user input numbers and the result of the math operation.
 """
 
 from utils.input_validations import (
-    get_user_choice,
+    get_yes_no_answer,
     get_operation,
     get_number_list_input,
     get_round_off_digit,
@@ -19,56 +19,56 @@ def calculate_multiple_numbers(calculator):
     print("Welcome to the Simple Arithmetic Calculator for multiple numbers!\n")
 
     print(
-        "You can perform addition, subtraction, multiplication, and division on multiple numbers.\n"
+        "You can perform addition, subtraction, multiplication, and division on multiple numbers."
     )
 
-    start_calculation = get_user_choice(
-        "Do you want to start the calculation? (Yes / No): "
+    start_calculation = get_yes_no_answer(
+        "\nDo you want to start the calculation? (Yes / No): "
     )
 
     while start_calculation == "yes":
 
         # Know what operation the user wants to perform
-        operation = get_operation("Enter the operation (+, -, *, /): ")
+        operation = get_operation("\nEnter the operation (+, -, *, /): ")
 
         # Get user input for multiple numbers
         number_list = get_number_list_input(
-            "Enter float and integer numbers separated by commas (e.g. 1, 2, 3.5, 4, 5.0): "
+            "\nEnter float and integer numbers separated by commas (e.g. 1, 2, 3.5, 4, 5.0): "
         )
 
         round_off_number = get_round_off_digit(
-            "Enter the number of desired decimal digit (empty means usage of default value): "
+            "\nEnter the number of desired decimal digit (empty means usage of default value): "
         )
 
         if operation == "+":
             sum_total = calculator.add(*number_list, round_off_digit=round_off_number)
-            print(f"The sum output is: {sum_total} \n")
+            print(f"The sum output is: {sum_total}")
 
         elif operation == "-":
             difference_total = calculator.subtract(
                 *number_list, round_off_digit=round_off_number
             )
-            print(f"The difference output is: {difference_total} \n")
+            print(f"The difference output is: {difference_total}")
 
         elif operation == "*":
             product_total = calculator.multiply(
                 *number_list, round_off_digit=round_off_number
             )
-            print(f"The product output is: {product_total} \n")
+            print(f"The product output is: {product_total}")
 
         elif operation == "/":
             quotient_total = calculator.divide(
                 *number_list, round_off_digit=round_off_number
             )
 
-            if quotient_total:
-                print(f"The quotient output is: {quotient_total} \n")
+            if quotient_total or quotient_total == 0:
+                print(f"The quotient output is: {quotient_total}")
 
         else:
             print("Invalid operation. Please enter one of the operations (+, -, *, /).")
 
-        restart_calculation = get_user_choice(
-            "Do you want to start the calculation again? (Yes / No): "
+        restart_calculation = get_yes_no_answer(
+            "\nDo you want to start the calculation again? (Yes / No): "
         )
 
         if restart_calculation == "yes":
