@@ -1,7 +1,8 @@
 """
-Simple Arithmetic Calculator built to handle basic operations (add, subtract, multiply, divide)
-with strict user input validation Basic Arithmetic Operations.
-This returns the list of user input numbers and the result of the math operation.
+Simple Arithmetic Calculator is a command-line program built to handle basic operations
+like (add, subtract, multiply, divide) with strict user input validation.
+This returns the list of all user input numbers, round off digit, and the
+total result of all the math calculations done without exiting the program.
 """
 
 from utils.input_validations import (
@@ -43,18 +44,21 @@ def calculate_multiple_numbers(calculator):
         if operation == "+":
             sum_total = calculator.add(*number_list, round_off_digit=round_off_number)
             print(f"The sum output is: {sum_total}")
+            calculator.get_total_of_all_computations(round_off_number)
 
         elif operation == "-":
             difference_total = calculator.subtract(
                 *number_list, round_off_digit=round_off_number
             )
             print(f"The difference output is: {difference_total}")
+            calculator.get_total_of_all_computations(round_off_number)
 
         elif operation == "*":
             product_total = calculator.multiply(
                 *number_list, round_off_digit=round_off_number
             )
             print(f"The product output is: {product_total}")
+            calculator.get_total_of_all_computations(round_off_number)
 
         elif operation == "/":
             quotient_total = calculator.divide(
@@ -63,6 +67,7 @@ def calculate_multiple_numbers(calculator):
 
             if quotient_total or quotient_total == 0:
                 print(f"The quotient output is: {quotient_total}")
+                calculator.get_total_of_all_computations(round_off_number)
 
         else:
             print("Invalid operation. Please enter one of the operations (+, -, *, /).")
