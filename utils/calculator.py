@@ -182,6 +182,11 @@ class Calculator:
             # Initialize result with the first number
             result = numbers[0]
 
+            # Catch Division by zero
+            if 0 in numbers[1:]:
+                print("Error: Division by zero is not allowed. Try again.\n")
+                return
+
             for index, number in enumerate(numbers):
                 # Debugging line to show the current index and number
                 print(f"Number {index + 1} : {number}")
@@ -202,12 +207,6 @@ class Calculator:
 
             raise ValueError(
                 f"Error: {e}. \nPlease provide valid numbers for division."
-            ) from e
-
-        except ZeroDivisionError as e:
-
-            raise ValueError(
-                f"Error: {e} \nDivision by zero is not allowed. Try again."
             ) from e
 
     def get_total_result(self, round_off_digit=2):

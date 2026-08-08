@@ -60,7 +60,9 @@ def calculate_multiple_numbers(calculator):
             quotient_total = calculator.divide(
                 *number_list, round_off_digit=round_off_number
             )
-            print(f"The quotient output is: {quotient_total} \n")
+
+            if quotient_total:
+                print(f"The quotient output is: {quotient_total} \n")
 
         else:
             print("Invalid operation. Please enter one of the operations (+, -, *, /).")
