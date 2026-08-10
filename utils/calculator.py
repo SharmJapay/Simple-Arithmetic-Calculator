@@ -45,12 +45,14 @@ class Calculator:
 
     def __init__(self):
         """Initializes the public and private instance properties"""
+
         self.__round_off_digit = 0
         self.__number_of_computations = 0
         self.__total_result = 0.0
 
     # 4) Define Instance Methods (private and public methods)
 
+    # Private Methods
     def __get_number_of_computations(self):
         """Returns the number of computations done
 
@@ -60,14 +62,18 @@ class Calculator:
 
         return self.__number_of_computations
 
-    def __add_to_number_of_computations(self, number):
+    def __add_to_number_of_computations(self, increment_number):
         """Sets the value of the number of computations done
 
+        Arguments
+            increment_number (int) - This indicates how many numbers will
+            be added to the number of computations
+
         Returns
-            NoneType
+            None
         """
-        no_of_computations = self.__number_of_computations + number
-        self.__number_of_computations = no_of_computations
+
+        self.__number_of_computations += increment_number
 
     def __get_round_off_digit(self):
         """Returns the value of the round off digit
@@ -81,16 +87,30 @@ class Calculator:
     def __set_round_off_digit(self, round_off_digit):
         """Sets the value of the round off digit
 
-        Keyword Arguments
+        Arguments
             round_off_digit (int) - Number of decimal places to round the result to (default is 2)
 
         Returns
-            NoneType
+            None
         """
 
         self.__round_off_digit = (
-            self.DEFAULT_ROUND_OFF_DIGIT if not round_off_digit else round_off_digit
+            self.DEFAULT_ROUND_OFF_DIGIT
+            if self.__is_empty_round_off_input(round_off_digit)
+            else round_off_digit
         )
+
+    def __is_empty_round_off_input(self, round_off_digit):
+        """Checks if the round off input is empty or not
+
+        Arguments
+            round_off_digit (int) - Number of decimal places to round the result to (default is 2)
+
+        Returns
+            Boolean (True or False)
+        """
+
+        return not round_off_digit
 
     def __get_total_result(self):
         """Returns the number of computations done
@@ -101,6 +121,7 @@ class Calculator:
 
         return self.__total_result
 
+    # Public Methods
     def add(self, *numbers, round_off_digit):
         """Add multiple numbers
 
@@ -121,9 +142,17 @@ class Calculator:
             # Initialize result with the first number
             result = numbers[0]
 
+            default_str = (
+                "[Default]"
+                if self.__is_empty_round_off_input(round_off_digit)
+                else "[User Input]"
+            )
+
             # Set the round of digit based from the input value
             self.__set_round_off_digit(round_off_digit)
             round_off_digit = self.__get_round_off_digit()
+
+            print("\nThese are the given numbers:")
 
             for index, number in enumerate(numbers):
                 # Debugging line to show the current index and number
@@ -133,7 +162,7 @@ class Calculator:
                 if index != 0:
                     result += number
 
-            print(f"Round off to: {round_off_digit} digits")
+            print(f"Round off to: {round_off_digit} digits {default_str}")
 
             # Set the values of these private properties:
             # __add_to_number_of_computations & __total_result
@@ -168,9 +197,17 @@ class Calculator:
             # Initialize result with the first number
             result = numbers[0]
 
+            default_str = (
+                "[Default]"
+                if self.__is_empty_round_off_input(round_off_digit)
+                else "[User Input]"
+            )
+
             # Set the round of digit based from the input value
             self.__set_round_off_digit(round_off_digit)
             round_off_digit = self.__get_round_off_digit()
+
+            print("\nThese the are given numbers:")
 
             for index, number in enumerate(numbers):
                 # Debugging line to show the current index and number
@@ -180,7 +217,7 @@ class Calculator:
                 if index != 0:
                     result -= number
 
-            print(f"Round off to: {round_off_digit} digits")
+            print(f"Round off to: {round_off_digit} digits {default_str}")
 
             # Set the values of these private properties:
             # __add_to_number_of_computations & __total_result
@@ -215,9 +252,17 @@ class Calculator:
             # Initialize result with the first number
             result = numbers[0]
 
+            default_str = (
+                "[Default]"
+                if self.__is_empty_round_off_input(round_off_digit)
+                else "[User Input]"
+            )
+
             # Set the round of digit based from the input value
             self.__set_round_off_digit(round_off_digit)
             round_off_digit = self.__get_round_off_digit()
+
+            print("\nThese are the given numbers:")
 
             for index, number in enumerate(numbers):
                 # Debugging line to show the current index and number
@@ -227,7 +272,7 @@ class Calculator:
                 if index != 0:
                     result *= number
 
-            print(f"Round off to: {round_off_digit} digits")
+            print(f"Round off to: {round_off_digit} digits {default_str}")
 
             # Set the values of these private properties:
             # __add_to_number_of_computations & __total_result
@@ -263,15 +308,22 @@ class Calculator:
             # Initialize result with the first number
             result = numbers[0]
 
+            default_str = (
+                "[Default]"
+                if self.__is_empty_round_off_input(round_off_digit)
+                else "[User Input]"
+            )
+
             # Set the round of digit based from the input value
             self.__set_round_off_digit(round_off_digit)
             round_off_digit = self.__get_round_off_digit()
 
             # Catch Division by zero
             if 0 in numbers[1:]:
-                print("Error: Division by zero is not allowed. Try again.")
-                self.get_total_of_all_computations(round_off_digit)
+                print("\nError: Division by zero is not allowed.")
                 return
+
+            print("\nThese are the given numbers:")
 
             for index, number in enumerate(numbers):
                 # Debugging line to show the current index and number
@@ -281,7 +333,7 @@ class Calculator:
                 if index != 0:
                     result /= number
 
-            print(f"Round off to: {round_off_digit} digits")
+            print(f"Round off to: {round_off_digit} digits {default_str}")
 
             # Set the values of these private properties:
             # __add_to_number_of_computations & __total_result
@@ -300,7 +352,7 @@ class Calculator:
         """Get the total result of all computations done
 
         Returns
-            str - Displays the total result of all computations done
+            None
         """
 
         # Set the round of digit based from the input value

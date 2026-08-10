@@ -5,6 +5,9 @@ This returns the list of all user input numbers, round off digit, and the
 total result of all the math calculations done without exiting the program.
 """
 
+import time
+import atexit as message_exit
+
 from utils.input_validations import (
     get_yes_no_answer,
     get_operation,
@@ -28,6 +31,7 @@ def calculate_multiple_numbers(calculator):
     )
 
     while start_calculation == "yes":
+        print("\nWe will now start the calculation...")
 
         # Know what operation the user wants to perform
         operation = get_operation("\nEnter the operation (+, -, *, /): ")
@@ -41,8 +45,12 @@ def calculate_multiple_numbers(calculator):
             "\nEnter the number of desired decimal digit (empty means usage of default value): "
         )
 
+        print("\nProcessing your calculation...")
+        time.sleep(1)
+
         if operation == "+":
             sum_total = calculator.add(*number_list, round_off_digit=round_off_number)
+
             print(f"The sum output is: {sum_total}")
             calculator.get_total_of_all_computations(round_off_number)
 
@@ -50,6 +58,7 @@ def calculate_multiple_numbers(calculator):
             difference_total = calculator.subtract(
                 *number_list, round_off_digit=round_off_number
             )
+
             print(f"The difference output is: {difference_total}")
             calculator.get_total_of_all_computations(round_off_number)
 
@@ -57,6 +66,7 @@ def calculate_multiple_numbers(calculator):
             product_total = calculator.multiply(
                 *number_list, round_off_digit=round_off_number
             )
+
             print(f"The product output is: {product_total}")
             calculator.get_total_of_all_computations(round_off_number)
 
@@ -68,20 +78,38 @@ def calculate_multiple_numbers(calculator):
             if quotient_total or quotient_total == 0:
                 print(f"The quotient output is: {quotient_total}")
                 calculator.get_total_of_all_computations(round_off_number)
+            else:
+                print("Try Again")
+                calculator.get_total_of_all_computations(round_off_number)
 
         else:
             print("Invalid operation. Please enter one of the operations (+, -, *, /).")
 
-        restart_calculation = get_yes_no_answer(
-            "\nDo you want to start the calculation again? (Yes / No): "
-        )
-
-        if restart_calculation == "yes":
+        if restart_calculation() == "yes":
             continue
         break
 
-    print("\nThank you for trying this calculator...")
-    print("\nThis calculator will now end.")
+    message_exit.register(end_program_message)
+
+
+def restart_calculation():
+    """Returns whether to restart the calculation or not"""
+
+    time.sleep(1)
+
+    restart_program = get_yes_no_answer(
+        "\nDo you want to start the calculation again? (Yes / No): "
+    )
+
+    return restart_program
+
+
+def end_program_message():
+    """Displays this message before the program ends"""
+
+    time.sleep(1)
+    print("\nThank you for trying this calculator program...")
+    print("\nThis program will now end.\n")
 
 
 def main() -> None:
