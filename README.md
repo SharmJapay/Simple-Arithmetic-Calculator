@@ -2,6 +2,8 @@
 
 A minimalist command-line arithmetic calculator built to handle basic operations with strict user input validation. The application securely processes numerical inputs and prevents crashes from invalid data types or mathematical errors.
 
+<img src="assets/screenshot.png" alt="Project Screenshot" width="600" align="center">
+
 # Features
 **Core Arithmetic:**
 Supports addition, subtraction, multiplication, and division.
